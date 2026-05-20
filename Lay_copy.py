@@ -729,10 +729,9 @@ def main():
         elif choice == '7':
             show_current_file()
         elif choice == '0':
+            # Автоматическая очистка временных файлов при выходе
             if temp_files:
-                clean = input("\n🗑️  Удалить все промежуточные файлы? (да/нет): ").strip().lower()
-                if clean in ('да', 'yes', 'y'):
-                    cleanup_temp_files()
+                cleanup_temp_files()
             print("\n👋 Выход из программы.")
             break
         else:
@@ -744,6 +743,12 @@ if __name__ == "__main__":
         main()
     except KeyboardInterrupt:
         print("\n\n👋 Программа прервана пользователем.")
+        # Очистка временных файлов при прерывании
+        if 'temp_files' in globals() and temp_files:
+            cleanup_temp_files()
     except Exception as e:
         print(f"\n❌ Ошибка: {e}")
+        # Очистка временных файлов при ошибке
+        if 'temp_files' in globals() and temp_files:
+            cleanup_temp_files()
         input("Нажмите Enter для выхода...")
